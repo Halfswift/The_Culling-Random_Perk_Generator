@@ -1,0 +1,94 @@
+/**********************************************************************
+
+Random Perk & Airdrop generator for The Culling
+~ By Halfswift /w help from Oberien
+
+**********************************************************************/
+import flash.events.MouseEvent;
+
+//All the perk-classes containing their perks and airdrops.
+var utilityArray:Array = new Array("Backpacker", "Load Dropper", "Bow Flexer", "Chemist", "Man Tracker", "Master Crafter", "Moneybags");
+var combatArray:Array = new Array("Ranger", "Brutus", "Trapper", "Mangler", "Basher", "Golden Arm");
+var movementArray:Array = new Array("Leg Day", "Stealthy Blade", "Speedy Spear", "Recovery");
+var survivalArray:Array = new Array("Cannibal", "Regenerator", "Blood Guzzler", "Bomb Suit", "Dig Deep", "Immunity", "Sixth Scents", "Thick Skin", "Tough Mother", "Angry Octopus", "Inhuman");
+var airdropArray:Array = new Array("Early", "Mid", "Late", "Utility");
+
+//The array used to call to a perk-class array.
+var perkClassArray:Array = new Array(utilityArray, combatArray, movementArray, survivalArray);
+
+//Used to count the amount of players in the form of indexes.
+var playersArray:Array = new Array(); 
+
+txtPlayerInsert.text = "";	//Makes sure theres no extra "\r" in the input text.
+
+//EventListener and function which generates the perks.
+btnGenerate.addEventListener(MouseEvent.CLICK, randomPerks);
+function randomPerks(evt:MouseEvent)
+{
+	var players:String = txtPlayerInsert.text;	//Converts the inputted playernames into 1 string.
+	playersArray = players.split("\r");			    //Splits the newly made string into their seperate names, 
+												                      //and puts them into the array for counting players.
+
+	//Changes position of the screen-elements after you've clicked go.
+	txtTitle.y = -200;
+	txtPlayerInsert.y = -1000;
+	txtDisplay.y = 110;
+	txtDisplayPlayers.y = 165;
+	
+	//Defines the array containing all the generated perks.
+	var allPerksArray:Array = new Array();
+
+	//Generates sets of perks for each player.
+	for(var i = 0; i < playersArray.length; i++)
+	{
+		//Defines the arrays used while generating 1 set, and also resets the previous job.
+		var selectedClassArray:Array = new Array();
+		var selectedPerkArray:Array = new Array();
+		
+		//This while generates 3 perks.
+		while(selectedPerkArray.length < 3)
+		{
+			var checker:Boolean = false;					          //Defines and resets a checker.
+			var randomNumber = Math.floor(Math.random()*4);	//Makes a random number from 0-3.
+			var currentJob = undefined;						          //Defines and resets the currentJob.
+			
+			//Runs through all the selected perkclasses, and...
+			for(var j = 0; j < selectedClassArray.length; j++)
+			{
+				//...checks if the randomly made number has already been chosen.
+				if(selectedClassArray[j] == randomNumber)
+				{
+					checker = true;
+				}
+			}
+			
+			//if the number has been picked, this step is skipped, and a new number is made.
+			//Otherwise, this will push the unique class, and choose a perk from it.
+			if(checker == false)
+			{
+				selectedClassArray.push(randomNumber);		//Adds the unique class number to selectedClassArray.
+				
+				//Uses the randomly made number, and uses it to take all the perks from the class it corrolates to.
+				currentJob = perkClassArray[randomNumber];	
+				
+				//Makes a new random number, using the length of the currentJob array (the amount of perks from the class)
+				var randomNumber2 = Math.floor(Math.random()*currentJob.length);
+				
+				//Takes the randomly chosen number, and uses that to take a perk from the currentJob. 
+				//Also adds spaces to make theend result look better.
+				selectedPerkArray.push("   " + currentJob[randomNumber2]);
+				
+				//Makes a new random number, and selects an airdrop from the airdropArray.
+				randomNumber2 = Math.floor(Math.random()*airdropArray.length);
+				var selectedAirdrop = airdropArray[randomNumber2];
+			}
+		}
+		//After selecting 3 perks and 1 airdrop for 1 player, 
+		//it makes this String, and adds it to the array.
+		allPerksArray.push("\n" + selectedPerkArray + "   with any " + selectedAirdrop + " airdrop");
+	}
+	//After making all the loadouts for all the players, it displays the player names
+	//and perks in the dynamic textfields.
+	txtDisplay.text += allPerksArray;
+	txtDisplayPlayers.text = players;
+}
