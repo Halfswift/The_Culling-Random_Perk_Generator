@@ -1,0 +1,56 @@
+@font-face {
+  font-family: 'onramp';
+  src: url('ONRAMP.ttf') format('truetype');
+}
+
+h1,body,input {
+  font-family: 'onramp';
+  font-size: 150%;
+}
+
+h1 {
+  font-size: 300%;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+}
+
+.flex1 {
+  flex: 1
+}
+.flex2 {
+  flex: 2
+}
+.flex3 {
+  flex: 3
+}
+.flex4 {
+  flex: 4
+}
+.flex5 {
+  flex: 5
+}
+
+.name {
+  font-size: 200%;
+  color: darkred;
+  text-align: right;
+  padding: 20px;
+}
+
+.perks {
+  font-size: 200%;
+  color: grey;
+  padding: 20px;
+}
