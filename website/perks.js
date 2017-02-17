@@ -1,7 +1,7 @@
 /**********************************************************************
 
 Random Perk & Airdrop generator for The Culling
-~ By Halfswift /w help from Oberien
+~ By Halfswift w/ help from oberien
 
 **********************************************************************/
 
@@ -24,10 +24,21 @@ var input = document.getElementById("name");
 
 // EventListener and function which generates the perks.
 form.onsubmit = (evt) => {
-  console.log("preventdefault");
   evt.preventDefault();
+  generate();
+}
+input.onkeydown = (evt) => {
+  if (evt.keyCode == 13) {
+    evt.preventDefault();
+    generate();
+  }
+}
+function generate() {
   // Converts the inputted playernames into 1 string.
   var player = input.value;
+  if (player === "") {
+    return;
+  }
   // clear the input
   input.value = "";
   
@@ -84,7 +95,7 @@ function addPerk(name, perk) {
   const nameDiv = document.createElement("div");
   nameDiv.className = "name flex1";
   const perkDiv = document.createElement("div");
-  perkDiv.className = "perks flex5";
+  perkDiv.className = "perk flex5";
   nameDiv.innerText = name;
   perkDiv.innerText = perk;
   const together = document.createElement("div");
